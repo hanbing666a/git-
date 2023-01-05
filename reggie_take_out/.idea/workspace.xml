@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="456441d0-07d3-4f74-9013-417da8a15df0" name="加入redis，缓存和验证码" comment="问题修改完成!!">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/itheima/reggie/controller/AddressBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/itheima/reggie/controller/AddressBookController.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="v1.1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/itheima/reggie/service/impl/SetmealServiceImpl.java" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/resources/backend/plugins/vue/vue.js" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2EzCIoCt1mlWJyqlqvv6CKjp6hj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/IDEA/code/reggie_take_out&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;31ee954601a2ac7573b0782bc2eec0b0&quot;
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ReggieApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <module name="reggie_take_out" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.itheima.reggie.ReggieApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.itheima.reggie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ReggieApplication" />
+        <item itemvalue="Spring Boot.ReggieApplication" />
+        <item itemvalue="Spring Boot.ReggieApplication" />
+        <item itemvalue="Spring Boot.ReggieApplication" />
+        <item itemvalue="Spring Boot.ReggieApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1663588955585</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1663588955585</updated>
+      <workItem from="1663588959508" duration="854000" />
+      <workItem from="1663590179917" duration="2383000" />
+      <workItem from="1663598156477" duration="5503000" />
+      <workItem from="1663636843057" duration="6789000" />
+      <workItem from="1663650641268" duration="5591000" />
+      <workItem from="1663668511222" duration="3774000" />
+      <workItem from="1663723788875" duration="803000" />
+      <workItem from="1663727709034" duration="1802000" />
+      <workItem from="1663738473949" duration="2877000" />
+      <workItem from="1663741772887" duration="1248000" />
+      <workItem from="1663746261360" duration="135000" />
+      <workItem from="1663746490838" duration="766000" />
+      <workItem from="1663747286639" duration="351000" />
+      <workItem from="1663747661316" duration="7521000" />
+      <workItem from="1663757665260" duration="808000" />
+      <workItem from="1663772913290" duration="1241000" />
+      <workItem from="1663828574985" duration="63000" />
+      <workItem from="1663857108688" duration="9000" />
+      <workItem from="1663915551930" duration="6693000" />
+      <workItem from="1664093977770" duration="4527000" />
+      <workItem from="1664157206419" duration="602000" />
+      <workItem from="1664193992871" duration="1875000" />
+      <workItem from="1664245465066" duration="1657000" />
+      <workItem from="1664248422558" duration="1710000" />
+      <workItem from="1664267996792" duration="6759000" />
+      <workItem from="1664327149800" duration="74000" />
+      <workItem from="1664336106440" duration="101000" />
+      <workItem from="1664414544846" duration="5411000" />
+      <workItem from="1664529128865" duration="864000" />
+      <workItem from="1664530018319" duration="320000" />
+      <workItem from="1664530390994" duration="340000" />
+      <workItem from="1664530863906" duration="2944000" />
+      <workItem from="1664768268321" duration="2767000" />
+      <workItem from="1664845975785" duration="1190000" />
+      <workItem from="1664951208332" duration="2804000" />
+      <workItem from="1665210174911" duration="7764000" />
+      <workItem from="1665280781469" duration="9985000" />
+      <workItem from="1665473039659" duration="1617000" />
+      <workItem from="1665562043311" duration="1530000" />
+      <workItem from="1665731829985" duration="3437000" />
+      <workItem from="1665832814573" duration="982000" />
+      <workItem from="1665907701088" duration="532000" />
+      <workItem from="1665908262638" duration="1220000" />
+      <workItem from="1665988306065" duration="2853000" />
+      <workItem from="1666061492387" duration="335000" />
+      <workItem from="1666076964909" duration="1891000" />
+      <workItem from="1666765742871" duration="3523000" />
+      <workItem from="1666833367920" duration="5386000" />
+      <workItem from="1666860544048" duration="2755000" />
+      <workItem from="1666920244803" duration="1217000" />
+      <workItem from="1666949778911" duration="54000" />
+      <workItem from="1666951073900" duration="491000" />
+      <workItem from="1667268732377" duration="767000" />
+      <workItem from="1667287371447" duration="68000" />
+      <workItem from="1668995404986" duration="484000" />
+      <workItem from="1669012306902" duration="473000" />
+      <workItem from="1669773781556" duration="3504000" />
+      <workItem from="1669885610936" duration="186000" />
+      <workItem from="1670314292717" duration="139000" />
+    </task>
+    <task id="LOCAL-00001" summary="问题修改">
+      <created>1663602073052</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1663602073052</updated>
+    </task>
+    <task id="LOCAL-00002" summary="问题修改完成">
+      <created>1663641027777</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1663641027777</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="问题修改" />
+    <MESSAGE value="问题修改完成" />
+    <MESSAGE value="问题修改完成!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="问题修改完成!!" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/itheima/reggie/controller/ShoppingCartController.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="com.baomidou.mybatisplus.extension.plugins.pagination.Page" memberName="records" />
+        <PinnedItemInfo parentTag="com.itheima.reggie.dto.DishDto" memberName="dishFlavors" />
+        <PinnedItemInfo parentTag="org.apache.catalina.session.StandardSession" memberName="attributes" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

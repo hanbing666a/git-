@@ -1,0 +1,177 @@
+Index: src/main/java/com/itheima/reggie/controller/OrderController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.itheima.reggie.controller;\r\n\r\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\r\nimport com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;\r\nimport com.baomidou.mybatisplus.extension.plugins.pagination.Page;\r\nimport com.itheima.reggie.common.BaseContext;\r\nimport com.itheima.reggie.common.R;\r\nimport com.itheima.reggie.entity.Orders;\r\nimport com.itheima.reggie.service.OrderService;\r\nimport org.apache.commons.lang.StringUtils;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.core.annotation.Order;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.Date;\r\nimport java.util.List;\r\n\r\n@RestController\r\n@RequestMapping(\"/order\")\r\npublic class OrderController {\r\n    @Autowired\r\n    private OrderService orderService;\r\n\r\n    @PostMapping(\"/submit\")\r\n    public R<String> submit(@RequestBody Orders orders){\r\n        orderService.submit(orders);\r\n        return R.success(\"下单成功\");\r\n    }\r\n\r\n    /**\r\n     * http://localhost:8080/order/userPage?page=1&pageSize=1\r\n     * GET\r\n     *\r\n     * http://localhost:8080/order/page?page=1&pageSize=10\r\n     * GET\r\n     * 订单分页查询\r\n     *\r\n     * @param page\r\n     * @param pageSize\r\n     * @param number\r\n     * @return\r\n     */\r\n    @GetMapping(\"/userPage\")\r\n    public R<Page<Orders>> page(\r\n            int page,\r\n            int pageSize\r\n) {\r\n\r\n        // 根据以上信息进行分页查询。\r\n        // 创建分页对象\r\n        Page<Orders> pageInfo = new Page<>(page, pageSize);\r\n        // 创建查询条件对象。\r\n        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();\r\n        queryWrapper.eq(Orders::getUserId,BaseContext.getCurrentId());\r\n        queryWrapper.orderByDesc(Orders::getCheckoutTime);\r\n        orderService.page(pageInfo, queryWrapper);\r\n        return R.success(pageInfo);\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/itheima/reggie/controller/OrderController.java b/src/main/java/com/itheima/reggie/controller/OrderController.java
+--- a/src/main/java/com/itheima/reggie/controller/OrderController.java	
++++ b/src/main/java/com/itheima/reggie/controller/OrderController.java	
+@@ -38,7 +38,6 @@
+      *
+      * @param page
+      * @param pageSize
+-     * @param number
+      * @return
+      */
+     @GetMapping("/userPage")
+@@ -57,6 +56,18 @@
+         orderService.page(pageInfo, queryWrapper);
+         return R.success(pageInfo);
+     }
++    /**
++     * http://localhost:8080/order/page?page=1&pageSize=10
++     *
++     */
++    @GetMapping("/page")
++    public R<Page> pageOrder(int page,int pageSize){
++        Page<Orders> pageInfo =new Page<>(page,pageSize);
++        LambdaQueryWrapper<Orders> queryWrapper=new LambdaQueryWrapper<>();
++        queryWrapper.orderByDesc(Orders::getCheckoutTime);
++        Page<Orders> page1 = orderService.page(pageInfo, queryWrapper);
++        return R.success(page1);
++    }
+ 
+ 
+ 
+Index: src/main/java/com/itheima/reggie/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.itheima.reggie.controller;\r\n\r\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\r\nimport com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;\r\nimport com.itheima.reggie.common.R;\r\nimport com.itheima.reggie.entity.User;\r\nimport com.itheima.reggie.service.UserService;\r\nimport com.itheima.reggie.utils.ValidateCodeUtils;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.data.redis.core.RedisTemplate;\r\nimport org.springframework.data.redis.core.ValueOperations;\r\nimport org.springframework.web.bind.annotation.PostMapping;\r\nimport org.springframework.web.bind.annotation.RequestBody;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RestController;\r\n\r\nimport javax.servlet.http.HttpSession;\r\nimport java.util.Map;\r\n@Slf4j\r\n@RestController\r\n@RequestMapping(\"/user\")\r\npublic class UserController {\r\n@Autowired\r\n    private UserService userService;\r\n@Autowired\r\nprivate RedisTemplate redisTemplate;\r\n    /**\r\n     * 接受请求发送验证码\r\n     * http://localhost:8080/user/sendMsg\r\n     * {phone:.....}\r\n     * @param user\r\n     * @param session\r\n     * @return\r\n     */\r\n    @PostMapping(\"/sendMsg\")\r\npublic R<String>  get(@RequestBody User user, HttpSession session){\r\n    //获取邮箱\r\n    String phone = user.getPhone();\r\n    //生成验证码\r\n    String code = ValidateCodeUtils.generateValidateCode(4).toString();\r\n    log.info(code);\r\n    //使用邮箱服务发送验证码\r\n    userService.sendMsg(phone,\"点餐验证\",\"您的验证码为\"+code+\"请妥善保存\");\r\n    //将生成的验证码保存到session中\r\n        ValueOperations valueOperations = redisTemplate.opsForValue();\r\n        valueOperations.set(phone,code);\r\n        return R.success(\"验证码发送完成\");\r\n}\r\n\r\n    /**\r\n     * 用户登录\r\n     * http://localhost:8080/user/login\r\n     * @param\r\n     * @param session\r\n     * @return\r\n     */\r\n      @PostMapping(\"/login\")\r\n        public R<User> login(@RequestBody Map map, HttpSession session){\r\n          //获取邮箱\r\n          String phone = map.get(\"phone\").toString();\r\n          //获取验证码\r\n          String code = map.get(\"code\").toString();\r\n          //判断验证码\r\n          Object sessionCode = redisTemplate.opsForValue().get(phone);\r\n          if (sessionCode!=null&&sessionCode.equals(code)){\r\n              //判断账号是否注册\r\n              LambdaQueryWrapper<User>  queryWrapper=new LambdaQueryWrapper<>();\r\n              queryWrapper.eq(User::getPhone,phone);\r\n              User user = userService.getOne(queryWrapper);\r\n              if (user==null){\r\n                  user=new User();\r\n                  user.setPhone(phone);\r\n                  user.setStatus(1);\r\n                  userService.save(user);\r\n              }\r\n              session.setAttribute(\"user\",user.getId());\r\n\r\n              //登录成功，删除redis中缓存的验证码\r\n              redisTemplate.delete(phone);\r\n              return R.success(user);\r\n          }\r\n          return R.error(\"登录失败\");\r\n        }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/itheima/reggie/controller/UserController.java b/src/main/java/com/itheima/reggie/controller/UserController.java
+--- a/src/main/java/com/itheima/reggie/controller/UserController.java	
++++ b/src/main/java/com/itheima/reggie/controller/UserController.java	
+@@ -14,7 +14,9 @@
+ import org.springframework.web.bind.annotation.RequestBody;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RestController;
++import org.springframework.web.servlet.function.ServerRequest;
+ 
++import javax.servlet.http.HttpServletRequest;
+ import javax.servlet.http.HttpSession;
+ import java.util.Map;
+ @Slf4j
+@@ -82,4 +84,13 @@
+           }
+           return R.error("登录失败");
+         }
++
++    /**
++     * http://localhost:8080/user/loginout
++     */
++    @PostMapping("/loginout")
++    public R<String> loginOut(HttpSession session){
++        session.removeAttribute("user");
++        return R.success("退出成功");
++    }
+ }
+Index: src/main/java/com/itheima/reggie/controller/ShoppingCartController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.itheima.reggie.controller;\r\n\r\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\r\nimport com.itheima.reggie.common.BaseContext;\r\nimport com.itheima.reggie.common.R;\r\nimport com.itheima.reggie.entity.ShoppingCart;\r\nimport com.itheima.reggie.service.ShoppingCartService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.time.LocalDateTime;\r\nimport java.util.List;\r\n\r\n@RestController\r\n@RequestMapping(\"/shoppingCart\")\r\npublic class ShoppingCartController {\r\n    @Autowired\r\n    private ShoppingCartService shoppingCartService;\r\n\r\n    /**\r\n     * http://localhost:8080/shoppingCart/add   POST\r\n     * {amount: 168, dishFlavor: \"去冰\", dishId: \"1397851668262465537\", name: \"口味蛇\",…}\r\n     * 添加菜品/套餐到购物车\r\n     */\r\n    @PostMapping(\"/add\")\r\n    public R<ShoppingCart> add(@RequestBody ShoppingCart shoppingCart) {\r\n        //设置指定账户的购物车\r\n        Long id = BaseContext.getCurrentId();\r\n        shoppingCart.setUserId(id);\r\n        LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();\r\n        queryWrapper.eq(ShoppingCart::getUserId, shoppingCart.getUserId());\r\n        Long dishId = shoppingCart.getDishId();\r\n        //判断购物车中添加的是菜品还是套餐\r\n        if (dishId != null) {\r\n            //购物车中是菜品\r\n            queryWrapper.eq(ShoppingCart::getDishId, dishId);\r\n        } else {\r\n            //购物车中是套餐\r\n            queryWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());\r\n        }\r\n        //查看当前菜品或者套餐在购物车中是否存在\r\n        //select one from shopping_Cart where user_id=id? and dishID=?/setmeal_id=?\r\n        ShoppingCart cartServiceOne = shoppingCartService.getOne(queryWrapper);\r\n        //判断是否购物车在已经存在\r\n        if (cartServiceOne != null) {\r\n            //在购物车中数量+1\r\n            Integer number = cartServiceOne.getNumber();\r\n            cartServiceOne.setNumber(number + 1);\r\n            shoppingCartService.updateById(cartServiceOne);\r\n            cartServiceOne.setCreateTime(LocalDateTime.now());\r\n        } else {\r\n            //添加到购物车\r\n            shoppingCartService.save(shoppingCart);\r\n            cartServiceOne = shoppingCart;\r\n        }\r\n        return R.success(cartServiceOne);\r\n    }\r\n\r\n\r\n    /**\r\n     *\r\n     */\r\n    @GetMapping(\"/list\")\r\n    public R<List<ShoppingCart>> list() {\r\n        LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();\r\n        queryWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());\r\n        queryWrapper.orderByAsc(ShoppingCart::getCreateTime);\r\n        //select * from shopping_Cart where user_id=? order by creat_time\r\n        List<ShoppingCart> list = shoppingCartService.list(queryWrapper);\r\n        return R.success(list);\r\n    }\r\n\r\n    /**\r\n     * http://localhost:8080/shoppingCart/clean\r\n     */\r\n    @DeleteMapping(\"/clean\")\r\n    public R<String> delete(){\r\n        LambdaQueryWrapper<ShoppingCart> queryWrapper=new LambdaQueryWrapper<>();\r\n        queryWrapper.eq(ShoppingCart::getUserId,BaseContext.getCurrentId());\r\n        shoppingCartService.remove(queryWrapper);\r\n        return R.success(\"清空购物车成功\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/itheima/reggie/controller/ShoppingCartController.java b/src/main/java/com/itheima/reggie/controller/ShoppingCartController.java
+--- a/src/main/java/com/itheima/reggie/controller/ShoppingCartController.java	
++++ b/src/main/java/com/itheima/reggie/controller/ShoppingCartController.java	
+@@ -55,6 +55,29 @@
+         }
+         return R.success(cartServiceOne);
+     }
++    /**
++     * http://localhost:8080/shoppingCart/sub  POST
++     */
++    @PostMapping("/sub")
++    public R<ShoppingCart> sub(@RequestBody ShoppingCart shoppingCart){
++        Long currentId = BaseContext.getCurrentId();
++        LambdaQueryWrapper<ShoppingCart> queryWrapper=new LambdaQueryWrapper<>();
++        queryWrapper.eq(ShoppingCart::getUserId,currentId);
++        if (shoppingCart.getDishId()!=null){
++        queryWrapper.eq(ShoppingCart::getDishId,shoppingCart.getDishId());
++        }else {
++            queryWrapper.eq(ShoppingCart::getSetmealId,shoppingCart.getSetmealId());
++        }
++        ShoppingCart userShoppingCart = shoppingCartService.getOne(queryWrapper);
++        if (userShoppingCart.getNumber()>1){
++            userShoppingCart.setNumber(userShoppingCart.getNumber()-1);
++            shoppingCartService.updateById(userShoppingCart);
++        }else {
++            userShoppingCart.setNumber(userShoppingCart.getNumber());
++            shoppingCartService.updateById(userShoppingCart);
++        }
++       return R.success(userShoppingCart);
++    }
+ 
+ 
+     /**
+Index: src/main/java/com/itheima/reggie/controller/EmployeeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.itheima.reggie.controller;\r\n\r\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\r\nimport com.baomidou.mybatisplus.extension.plugins.pagination.Page;\r\nimport com.itheima.reggie.common.R;\r\nimport com.itheima.reggie.entity.Employee;\r\nimport com.itheima.reggie.service.EmployeeService;\r\nimport com.itheima.reggie.service.impl.EmployeeServiceImpl;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.util.DigestUtils;\r\nimport org.springframework.util.StringUtils;\r\nimport org.springframework.web.bind.annotation.*;\r\nimport sun.dc.pr.PRError;\r\n\r\nimport javax.servlet.http.HttpServletRequest;\r\nimport java.time.LocalDateTime;\r\n\r\n/**\r\n * 员工管理\r\n */\r\n@Slf4j\r\n@RestController\r\n@RequestMapping(\"/employee\")\r\npublic class EmployeeController {\r\n    @Autowired\r\n    private EmployeeService employeeService;\r\n\r\n\r\n    /**\r\n     * 员工登录  通过返回给前端 （ R.error和R.success）  返回r   r中含有code来判断是否跳转登录页面\r\n     * @param request\r\n     * @param employee\r\n     * @return\r\n     */\r\n    @PostMapping(\"/login\")\r\n    public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee){\r\n        //1、从页面获取的密码进行md5加密处理\r\n        String password = DigestUtils.md5DigestAsHex(employee.getPassword().getBytes());\r\n\r\n        //2、根据页面提交的用户名查询数据库\r\n        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();\r\n        // select * from where name =？  如果有  返回结果到queryWrapper\r\n        queryWrapper.eq(Employee::getUsername,employee.getUsername());\r\n        Employee emp = employeeService.getOne(queryWrapper);\r\n\r\n        //3、如果没有查询到用户名\r\n        if (emp==null){\r\n            return R.error(\"登陆失败，用户名不存在\");\r\n        }\r\n\r\n        //4、密码比对\r\n        if (!emp.getPassword().equals(password)){\r\n            return R.error(\"登陆失败，密码输入错误\");\r\n        }\r\n\r\n        //5、查看与员工状态\r\n        if(emp.getStatus()==0){\r\n            return R.error(\"登陆失败，您的账号已冻结\");\r\n        }\r\n        //6、登陆成功，将员工id存入session\r\n        request.getSession().setAttribute(\"employee\",emp.getId());\r\n        return  R.success(emp);\r\n    }\r\n\r\n\r\n    /**\r\n     * 员工退出登录   单击退出图片  前段发送给请求到logout\r\n     * @param request\r\n     * @return\r\n     */\r\n    @PostMapping(\"/logout\")\r\n    public R<String> logout(HttpServletRequest request){\r\n        request.getSession().removeAttribute(\"employee\");\r\n        return R.success(\"退出成功\");\r\n    }\r\n\r\n    /**\r\n     * 新增员工\r\n     * 用户名重复，用户名在数据库中的设计是Unique ，是唯一的，此处加了一个全局异常处理\r\n     *  http://localhost:8080/employee\r\n     *  POST\r\n     *  {name: \"1111\", phone: \"15565049009\", sex: \"1\", idNumber: \"411422200008183918\", username: \"333\"}\r\n     * @param request\r\n     * @param employee\r\n     * @return\r\n     */\r\n    @PostMapping\r\n    public R<String> save(HttpServletRequest request,@RequestBody Employee employee){\r\n        employee.setPassword(DigestUtils.md5DigestAsHex(\"123456\".getBytes()));\r\n//        Long employeeBefore = (Long) request.getSession().getAttribute(\"employee\");\r\n//        employee.setCreateTime(LocalDateTime.now());\r\n//        employee.setUpdateTime(LocalDateTime.now());\r\n//        employee.setCreateUser(employeeBefore);\r\n//        employee.setUpdateUser(employeeBefore);\r\n        log.info(\"新增人员信息：\"+employee.toString());\r\n        employeeService.save(employee);\r\n        return R.success(\"新增员工成功\");\r\n    }\r\n\r\n    /**\r\n     * 分页+模糊查询\r\n     * http://localhost:8080/employee/page?page=1&pageSize=10&name=11\r\n     * GET\r\n     * @param page\r\n     * @param pageSize\r\n     * @param name\r\n     * @return\r\n     */\r\n    @GetMapping(\"/page\")\r\n    public R<Page> page(int page,int pageSize,String name){ //前端需要page，所以泛型是MP里的page   返回R<Page>\r\n        log.info(\"page={},pageSize={},name={}\",page,pageSize,name);\r\n        //1、构造分页构造器\r\n        Page pageInfo = new Page(page, pageSize);\r\n        //2、构造条件构造器\r\n        LambdaQueryWrapper<Employee> lambdaQueryWrapper=new LambdaQueryWrapper<Employee>();\r\n        //3、添加模糊查询条件\r\n        lambdaQueryWrapper.like(!StringUtils.isEmpty(name),Employee::getName,name);//当name不为空的时候，查找名字是name的employee对象\r\n        //4、添加排序条件\r\n        lambdaQueryWrapper.orderByDesc(Employee::getUpdateTime);\r\n        //5、执行查询\r\n        employeeService.page(pageInfo,lambdaQueryWrapper);\r\n        return R.success(pageInfo);\r\n    }\r\n\r\n    /**\r\n     * 1、修改员工的状态\r\n     * http://localhost:8080/employee\r\n     * {id: \"1568102118538121218\", status: 0}\r\n     * 前端请求发送的员工的id和数据库中的员工id不同\r\n     * 原因是js在处理long类型数据发生精度损失，\r\n     * 处理方案：在mvc框架中，将默认的消息转换器改成自定义的消息转换器\r\n     * 即将long类型的数响应给前端的时候都转化成String类型\r\n     * 2、修改员工信息\r\n     * @param request\r\n     * @param employee\r\n     * @return\r\n     */\r\n    @PutMapping\r\n    public R<String> update(HttpServletRequest request,@RequestBody Employee employee){\r\n//       Long empID= (Long) request.getSession().getAttribute(\"employee\");\r\n//       employee.setUpdateUser(empID);\r\n//       employee.setUpdateTime(LocalDateTime.now());\r\n//        long id = Thread.currentThread().getId();//\r\n//        log.info(\"当前线程id{}\",id);\r\n\r\n        //自动填充字段\r\n        //update status=? from emp where id=?\r\n        employeeService.updateById(employee);\r\n\r\n        return R.success(\"修改状态成功\");\r\n    }\r\n\r\n    /**\r\n     * 编辑员工信息\r\n     * 1、根据员工的id查询用户信息响应前端\r\n     * @param id\r\n     * @return\r\n     */\r\n    @GetMapping(\"/{id}\")\r\n    public  R<Employee> getById(@PathVariable long id){\r\n        Employee employee = employeeService.getById(id);\r\n        return R.success(employee);\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/itheima/reggie/controller/EmployeeController.java b/src/main/java/com/itheima/reggie/controller/EmployeeController.java
+--- a/src/main/java/com/itheima/reggie/controller/EmployeeController.java	
++++ b/src/main/java/com/itheima/reggie/controller/EmployeeController.java	
+@@ -32,6 +32,7 @@
+      * @param request
+      * @param employee
+      * @return
++     * 判断传进来的employ.password->employ.word->employ.status->存入session
+      */
+     @PostMapping("/login")
+     public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee){
+@@ -68,6 +69,7 @@
+      * 员工退出登录   单击退出图片  前段发送给请求到logout
+      * @param request
+      * @return
++     * 移除session
+      */
+     @PostMapping("/logout")
+     public R<String> logout(HttpServletRequest request){
+@@ -83,6 +85,7 @@
+      *  {name: "1111", phone: "15565049009", sex: "1", idNumber: "411422200008183918", username: "333"}
+      * @param request
+      * @param employee
++     * 公共字段自动填充->将完整的employ对象save到employ表
+      * @return
+      */
+     @PostMapping
+@@ -106,6 +109,7 @@
+      * @param pageSize
+      * @param name
+      * @return
++     * 分页构造器和条件构造器，最后对employ表进行分页处理
+      */
+     @GetMapping("/page")
+     public R<Page> page(int page,int pageSize,String name){ //前端需要page，所以泛型是MP里的page   返回R<Page>
+@@ -119,6 +123,7 @@
+         //4、添加排序条件
+         lambdaQueryWrapper.orderByDesc(Employee::getUpdateTime);
+         //5、执行查询
++        //select * from employ where name like %  limit?,?
+         employeeService.page(pageInfo,lambdaQueryWrapper);
+         return R.success(pageInfo);
+     }
+@@ -135,6 +140,7 @@
+      * @param request
+      * @param employee
+      * @return
++     * 修改员工的status
+      */
+     @PutMapping
+     public R<String> update(HttpServletRequest request,@RequestBody Employee employee){
+@@ -156,6 +162,7 @@
+      * 1、根据员工的id查询用户信息响应前端
+      * @param id
+      * @return
++     * 先根据员工id查询用户信息回显页面，修改走update
+      */
+     @GetMapping("/{id}")
+     public  R<Employee> getById(@PathVariable long id){
